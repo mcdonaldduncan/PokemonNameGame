@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PROG455SP23Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Generation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GenerationNumber" Type="int" Nullable="false" />
+          <Property Name="RegionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pokemon">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="AltTypeID" Type="int" />
+          <Property Name="GenerationID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="HexColor" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Pokemon_Generation">
+          <End Role="Generation" Type="Self.Generation" Multiplicity="1" />
+          <End Role="Pokemon" Type="Self.Pokemon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Generation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pokemon">
+              <PropertyRef Name="GenerationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokemon_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Pokemon" Type="Self.Pokemon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pokemon">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokemon_Type1">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Pokemon" Type="Self.Pokemon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pokemon">
+              <PropertyRef Name="AltTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PROG455SP23ModelStoreContainer">
+          <EntitySet Name="Generation" EntityType="Self.Generation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pokemon" EntityType="Self.Pokemon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Pokemon_Generation" Association="Self.FK_Pokemon_Generation">
+            <End Role="Generation" EntitySet="Generation" />
+            <End Role="Pokemon" EntitySet="Pokemon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokemon_Type" Association="Self.FK_Pokemon_Type">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Pokemon" EntitySet="Pokemon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokemon_Type1" Association="Self.FK_Pokemon_Type1">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Pokemon" EntitySet="Pokemon" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PROG455SP23Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Generation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GenerationNumber" Type="Int32" Nullable="false" />
+          <Property Name="RegionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Pokemons" Relationship="Self.FK_Pokemon_Generation" FromRole="Generation" ToRole="Pokemon" />
+        </EntityType>
+        <EntityType Name="Pokemon">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TypeID" Type="Int32" Nullable="false" />
+          <Property Name="AltTypeID" Type="Int32" />
+          <Property Name="GenerationID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Generation" Relationship="Self.FK_Pokemon_Generation" FromRole="Pokemon" ToRole="Generation" />
+          <NavigationProperty Name="Type" Relationship="Self.FK_Pokemon_Type" FromRole="Pokemon" ToRole="Type" />
+          <NavigationProperty Name="Type1" Relationship="Self.FK_Pokemon_Type1" FromRole="Pokemon" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HexColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Pokemons" Relationship="Self.FK_Pokemon_Type" FromRole="Type" ToRole="Pokemon" />
+          <NavigationProperty Name="Pokemons1" Relationship="Self.FK_Pokemon_Type1" FromRole="Type" ToRole="Pokemon" />
+        </EntityType>
+        <Association Name="FK_Pokemon_Generation">
+          <End Role="Generation" Type="Self.Generation" Multiplicity="1" />
+          <End Role="Pokemon" Type="Self.Pokemon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Generation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pokemon">
+              <PropertyRef Name="GenerationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokemon_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Pokemon" Type="Self.Pokemon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pokemon">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pokemon_Type1">
+          <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+          <End Role="Pokemon" Type="Self.Pokemon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Pokemon">
+              <PropertyRef Name="AltTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PROG455SP23Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Generations" EntityType="Self.Generation" />
+          <EntitySet Name="Pokemons" EntityType="Self.Pokemon" />
+          <EntitySet Name="Types" EntityType="Self.Type" />
+          <AssociationSet Name="FK_Pokemon_Generation" Association="Self.FK_Pokemon_Generation">
+            <End Role="Generation" EntitySet="Generations" />
+            <End Role="Pokemon" EntitySet="Pokemons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokemon_Type" Association="Self.FK_Pokemon_Type">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Pokemon" EntitySet="Pokemons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pokemon_Type1" Association="Self.FK_Pokemon_Type1">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Pokemon" EntitySet="Pokemons" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PROG455SP23ModelStoreContainer" CdmEntityContainer="PROG455SP23Entities">
+          <EntitySetMapping Name="Generations">
+            <EntityTypeMapping TypeName="PROG455SP23Model.Generation">
+              <MappingFragment StoreEntitySet="Generation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GenerationNumber" ColumnName="GenerationNumber" />
+                <ScalarProperty Name="RegionName" ColumnName="RegionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pokemons">
+            <EntityTypeMapping TypeName="PROG455SP23Model.Pokemon">
+              <MappingFragment StoreEntitySet="Pokemon">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="AltTypeID" ColumnName="AltTypeID" />
+                <ScalarProperty Name="GenerationID" ColumnName="GenerationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types">
+            <EntityTypeMapping TypeName="PROG455SP23Model.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="HexColor" ColumnName="HexColor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
