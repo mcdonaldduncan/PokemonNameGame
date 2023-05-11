@@ -18,8 +18,7 @@ namespace PokemonNameGame.Data
         public List<Pokemon> GetFiltered(int TypeID, int GenID)
         {
             return db.Pokemons
-                .Where(n => n.GenerationID == GenID)
-                .Where(x => x.TypeID == TypeID || x.AltTypeID == TypeID)
+                .Where(n => n.GenerationID == GenID && (n.TypeID == TypeID || n.AltTypeID == TypeID))
                 .ToList();
         }
     }

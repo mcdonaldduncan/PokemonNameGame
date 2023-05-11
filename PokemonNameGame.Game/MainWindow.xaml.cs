@@ -85,6 +85,8 @@ namespace PokemonNameGame.Game
 
             cb_Type.BorderBrush = Brushes.Gray;
             cb_Region.BorderBrush = Brushes.Gray;
+
+            tb_Guessed.Text = string.Empty;
         }
 
         void RefreshLists()
@@ -102,6 +104,7 @@ namespace PokemonNameGame.Game
             var type = _types[cb_Type.SelectedIndex];
             var generation = _generations[cb_Region.SelectedIndex];
 
+            // ToDo stack overflow - add
             wd_Main.Background = (SolidColorBrush)new BrushConverter().ConvertFrom($"#{type.HexColor}");
 
             var game = _factory.CreateGame(type.ID, generation.ID);
