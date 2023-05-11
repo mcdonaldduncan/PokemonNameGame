@@ -14,5 +14,13 @@ namespace PokemonNameGame.Tests
             DbLogger logger = new DbLogger();
             Assert.NotEqual(string.Empty, logger.CheckConnection());
         }
+
+        [Fact]
+        void TestLogging()
+        {
+            DbLogger logger = new DbLogger();
+            logger.LogInfo("Log Test");
+            Assert.True(true);
+        }
     }
 }

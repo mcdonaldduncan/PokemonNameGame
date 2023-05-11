@@ -45,7 +45,7 @@
     <Compile Include="CustomRequiredAttribute.cs" />
     <Compile Include="DisplayService.cs" />
     <Compile Include="GameFactory.cs" />
-    <Compile Include="GameServices.cs" />
+    <Compile Include="GameService.cs" />
     <Compile Include="GameServiceModel.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
